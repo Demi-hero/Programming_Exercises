@@ -31,10 +31,9 @@ def deminishing_returns():
     return x
 #lets me easily reset the game if the user gives me bad data   
 def cheater():
-    print("AHA I have it.")
-    print("Those steps mean that it must be", guess)
-    print("And it only took me", counter, "steps")
-    print("If its not someone has been cheating and I don't want to play anymore")
+    print("Those steps take us beyond one of our bounds")
+    print("This means you have given inconsitent answers.")
+    print("I don't work if you do that. Thanks for playing")
 # lets me quickly give the user a guess and asks for their response
 def user_input_request():
     print("Is your number:",guess,"?")
@@ -47,7 +46,6 @@ user_response = user_input_request()
 
 
 while check == True:
-        
         # lets the user know the computer has guessed their number 
         if user_response == "=" :
             print ("Wohoo I got it. Thanks for playing")
@@ -73,13 +71,8 @@ while check == True:
             if val_check(upper_bound, lower_bound) == True :
                 cheater()
                 check = False
-<<<<<<< HEAD
                 break
             user_response = user_input_request()
         else:
             print ("Thats not quite right please input =,< or, >")
-=======
-                break       
-    except ValueError:
-        print ("Thats not quite right please input =,< or, >")
->>>>>>> 966c7f32a9155b81083cd83a48fc7813e68a3b73
+            break       
