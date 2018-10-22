@@ -5,9 +5,10 @@ Created on Fri Oct 19 08:00:33 2018
 @author: Nathan
 """
 # Declaring all the important variables to begin with just to get it done
-guess = 0 
-upprbnd = 10
-lowrbnd = -10
+guess = 50 
+max_upper_bound = 100
+upper_bound = 100
+lower_bound = 1
 check = True
 counter = 1
 
@@ -20,7 +21,7 @@ def val_check(var1, var2) :
     
 # lets me shorthand out formula for deminishing returns   
 def deminishing_returns():
-    x = int(upprbnd/2**counter)
+    x = int(max_upper_bound/2**counter)
     if x == 0:
         x = 1
     return x
@@ -30,42 +31,45 @@ def cheater():
     print("Those steps mean that it must be", guess)
     print("And it only took me", counter, "steps")
     print("If its not someone has been cheating and I don't want to play anymore")
-# unsure if I should have made a function to save writing this second part out twice
+# lets me quickly give the user a guess and asks for their response
+def user_input_request():
+    print("Is your number:",guess,"?")
+    return input("If so let me know with =. Otherwise is it greater than(>) or less than(<).\n")
 
 
-print("Think of a number between -10 and 10.")
+print("Think of a number between 1 and 100.")
 print("Using the power of Maths I shall figure it out.")
+user_response = user_input_request()
+
 
 while check == True:
-    try:
-        print("is your number:",guess,"?")
-        usr_resp = input("if so let me know with =. Otherwise is it greater than (>) or less than (<)\n")
+        
         # lets the user know the computer has guessed their number 
-        if usr_resp == "=" :
+        if user_response == "=" :
             print ("Wohoo I got it. Thanks for playing")
             print ("It only took me", counter, "steps")
             check = False
         # how it handles >  
-        elif usr_resp == "greater than" or usr_resp == ">" :
+        elif user_response == "greater than" or user_response == ">" :
             counter += 1  
-            lowrbnd = guess 
-            minish_return = deminishing_returns()
-            guess = guess + int(minish_return)
+            lower_bound = guess 
+            guess = guess + int(deminishing_returns())
             # this is the safeguard to make sure the user isn't givng bad data
-            if val_check(upprbnd, lowrbnd) == True :
+            if val_check(upper_bound, lower_bound) == True :
                 cheater()
                 check = False
-                break       
+                break
+            user_response = user_input_request()
         #how it handles < 
-        elif usr_resp == "less than" or usr_resp == "<" :
+        elif user_response == "less than" or user_response == "<" :
             counter += 1
-            upprbnd = guess
-            minish_return = deminishing_returns()
-            guess = guess - int(minish_return)
+            upper_bound = guess
+            guess = guess - int(deminishing_returns())
             # this is the safeguard to make sure the user isn't givng bad data
-            if val_check(upprbnd, lowrbnd) == True :
+            if val_check(upper_bound, lower_bound) == True :
                 cheater()
                 check = False
-                break       
-    except ValueError:
-        print ("Thats not quite right please input =,< or, >")
+                break
+            user_response = user_input_request()
+        else:
+            print ("Thats not quite right please input =,< or, >")
