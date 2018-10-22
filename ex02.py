@@ -1,8 +1,12 @@
 # -*- coding: utf-8 -*-
 """
-Created on Fri Oct 19 08:00:33 2018
-
-@author: Nathan
+TODO 
+- Imitate the layout of the pdf output 
+- Handel a user input of = 
+- Handel a user input of <
+- Handel a user input of > 
+- Handel incorrect input
+- let the user know it figure out its cheating
 """
 # Declaring all the important variables to begin with just to get it done
 guess = 50 
@@ -69,7 +73,13 @@ while check == True:
             if val_check(upper_bound, lower_bound) == True :
                 cheater()
                 check = False
+<<<<<<< HEAD
                 break
             user_response = user_input_request()
         else:
             print ("Thats not quite right please input =,< or, >")
+=======
+                break       
+    except ValueError:
+        print ("Thats not quite right please input =,< or, >")
+>>>>>>> 966c7f32a9155b81083cd83a48fc7813e68a3b73
