@@ -16,9 +16,9 @@ lower_bound = 1
 check = True
 counter = 1
 
-# let me shorthand the upper and lowerbound check
+# A check on the upper and lowerbound distance
 def val_check(var1, var2) :
-    if (var1 - var2) <= 1 :
+    if (var1 - var2) < 1 :
         return True
     else:
         return False 
@@ -36,7 +36,7 @@ def cheater():
     print("I don't work if you do that. Thanks for playing")
 # lets me quickly give the user a guess and asks for their response
 def user_input_request():
-    print("Is your number:",guess,"?")
+    print('Is your number: {guess}?'.format(guess=guess))
     return input("If so let me know with =. Otherwise is it greater than(>) or less than(<).\n")
 
 
@@ -49,7 +49,7 @@ while check == True:
         # lets the user know the computer has guessed their number 
         if user_response == "=" :
             print ("Wohoo I got it. Thanks for playing")
-            print ("It only took me", counter, "steps")
+            print ("It only took me {counter} step(s)".format(counter=counter))
             check = False
         # how it handles >  
         elif user_response == "greater than" or user_response == ">" :
