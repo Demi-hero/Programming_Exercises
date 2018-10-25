@@ -45,19 +45,19 @@ print("Using the power of Maths I shall figure it out.")
 user_response = user_input_request()
 
 # The important part 
-while check == True:
+while check:
         # lets the user know the computer has guessed their number 
         if user_response == "=" :
             print ("Wohoo I got it. Thanks for playing")
-            print ("It only took me {counter} step(s)".format(counter=counter))
+            print("It only took me {counter} step(s)")
             check = False
         # how it handles >  
         elif user_response == "greater than" or user_response == ">" :
             counter += 1  
-            lower_bound = guess 
+            lower_bound = guess + 1
             guess = guess + int(deminishing_returns())
             # this is the safeguard to make sure the user isn't givng bad data
-            if val_check(upper_bound, lower_bound) == True :
+            if val_check(upper_bound, lower_bound):
                 cheater()
                 check = False
                 break
@@ -65,10 +65,10 @@ while check == True:
         #how it handles < 
         elif user_response == "less than" or user_response == "<" :
             counter += 1
-            upper_bound = guess
+            upper_bound = guess - 1
             guess = guess - int(deminishing_returns())
             # this is the safeguard to make sure the user isn't givng bad data
-            if val_check(upper_bound, lower_bound) == True :
+            if val_check(upper_bound, lower_bound):
                 cheater()
                 check = False
                 break
