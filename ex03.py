@@ -3,22 +3,32 @@
 Spyder Editor
 
 TODO:
-    Get it to hand me back only diagrams with 8 Queens on them
+    Find More Than One Solution
 """
 
-grid = ['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.']
+grid_size = 8
 
+def grid_generator(n):
+    grid = ["."] * n
+    for i in range(n):
+        grid[i] = ['.'] * n
+    return grid
 
-def nice_grid():
-    for row in grid:
-        for value in row:
-            print (value, end = ' ')
+grid = grid_generator(grid_size)
+
+# function to print a nice grid of inditerminate size
+def nice_grid(board):
+    for y in range(grid_size):
+        for x in range(grid_size):
+            print(board[x][y],end=' ')
         print()
-        
+
+# function to check if the location is a Q        
 def spot_check(y0,x0):
     if grid[y0][x0] == 'Q':
         return False
 
+#checks the 4 diagonal directions for queenly threats
 def diagonal_checker (y_pos,x_pos):
     xtl,xbl,xtr,xbr = x_pos,x_pos,x_pos,x_pos
 # To the top left of the board
@@ -31,61 +41,69 @@ def diagonal_checker (y_pos,x_pos):
 # Top Right of the Board
     for i in range(y_pos-1,-1,-1):
         xtr += 1
-        if xtr == 8:
+        if xtr == grid_size:
             break
         if spot_check(i,xtr)== False:
             return False
 # To the bottom left of the board
-    for i in range(y_pos+1,8):
+    for i in range(y_pos+1,grid_size):
         xbl -= 1
         if xbl == -1:
             break
         if spot_check(i,xbl)== False:
             return False
 # Bottom Right of the Board
-    for i in range(y_pos+1,8):
+    for i in range(y_pos+1,grid_size):
         xbr += 1
-        if xbr == 8:
+        if xbr == grid_size:
             break
         if spot_check(i,xbr)== False:
             return False
         
-
+#checks all directions for queenly checks
 def is_valid(y,x):
     if spot_check == False:
         return False
-    for value in range(0,8):
+    for value in range(0,grid_size):
         if grid[y][value] == 'Q':
             return False
-    for value in range(0,8):
+    for value in range(0,grid_size):
         if grid[value][x] == 'Q':
             return False
     if diagonal_checker(y,x) == False:
         return False
     return True
 
+def never_give_up(board,col):
+    if col >= grid_size:
+        return True
+    for i in range(grid_size):
+        # checks the grid to see if its been edited and if its valid
+            if is_valid(i,col): 
+            # sets the grid location to Q
+                grid[i][col] = 'Q'    
+            # tries to add the next queen 
+                if never_give_up(board,col+1):
+                    return True
+            # if no solutions are found for here set the grid to .
+                grid[i][col] = '.'
+    return False
 
 
 
-def solve(n):
+
+def solve():
     ''' 
-    n = number of queens to be solved for 
+    n = number of columns to be solved for 
     '''
-    if n == 0:
-        nice_grid()
-        return
-    ## makes sure every possible value is usable
-    else: 
-        for y in range(0,8):
-            for x in range (0,8):        
-                # checks the grid to see if its been edited and if its valid
-                if is_valid(y,x): 
-                    # sets the grid location to Q
-                    grid[y][x] = 'Q'    
-                    # tries to add the next queen 
-                    solve(n-1)
-                    # if no solutions are found for here set the grid to .
-                    grid[y][x] = '.'
-    input("More?")
-
-solve(8)    
+    while True :
+        # Recurs until it has a solution (In theory) then asks if you want 
+        # another one
+        never_give_up(grid,0)         
+        nice_grid(grid)    
+        cont = input("More?")
+        if cont == 'no' :
+            break
+        
+            
+solve()    

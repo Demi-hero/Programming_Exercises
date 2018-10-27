@@ -3,7 +3,7 @@
 Created on Sat Oct 27 11:26:55 2018
 
 @author: Nathan
-"""
+
 grid = ["." ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.']
 
     
@@ -53,3 +53,17 @@ def diagonal_checker (y_pos,x_pos):
 
 if diagonal_checker(y,x) == False:
     print("Wooo!")
+"""
+
+grid_size = 8
+grid = []
+def grid_generator(n):
+    grid = ["."] * n
+    for i in range(n):
+        grid[i] = ['.'] * n
+    return grid
+
+
+grid = grid_generator(grid_size)
+
+print(grid)
