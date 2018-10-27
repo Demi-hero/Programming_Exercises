@@ -2,7 +2,8 @@
 """
 Spyder Editor
 
-
+TODO:
+    Get it to hand me back only diagrams with 8 Queens on them
 """
 
 grid = ['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.'],['.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.' ,'.']
@@ -70,19 +71,21 @@ def solve(n):
     ''' 
     n = number of queens to be solved for 
     '''
+    if n == 0:
+        nice_grid()
+        return
     ## makes sure every possible value is usable
-    for y in range(0,8):
-        for x in range (0,8):        
-            # checks the grid to see if its been edited and if its valid
-            if is_valid(y,x):
-                # sets the grid location to Q
-                grid[y][x] = 'Q'    
-                # tries to add the next queen 
-                solve(n-1)
-                # if no solutions are found for here set the grid to .
-                grid[y][x] = '.'
-    nice_grid()
+    else: 
+        for y in range(0,8):
+            for x in range (0,8):        
+                # checks the grid to see if its been edited and if its valid
+                if is_valid(y,x): 
+                    # sets the grid location to Q
+                    grid[y][x] = 'Q'    
+                    # tries to add the next queen 
+                    solve(n-1)
+                    # if no solutions are found for here set the grid to .
+                    grid[y][x] = '.'
     input("More?")
-
 
 solve(8)    
