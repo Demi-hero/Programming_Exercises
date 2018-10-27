@@ -36,7 +36,7 @@ def cheater():
 
 # gives the user a guess and asks for their response
 def user_input_request():
-    print('Is your number: {guess}?'.format(guess=guess))
+    print(f'Is your number: {guess}?')
     return input("If so let me know with =. Otherwise is it greater than(>) or less than(<).\n")
 
 
