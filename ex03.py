@@ -9,9 +9,7 @@ Created on Tue Oct 30 09:56:54 2018
 """
 Spyder Editor
 TODO:
-    Find More Than One Solution#
-    Fold Never Give Up & Solve together
-    Get rid of Global Variables?
+        Get rid of Global Variables?
 """
 
 grid_size = 8
@@ -82,23 +80,28 @@ def is_valid(y,x):
         return False
     return True
 
-def never_give_up(board,col,previous_i):
+def place_queen(board,col=0):
+    # base case
     if col >= grid_size:
         nice_grid(grid)
         input("More?")
         return
+    # this will incriment along the rows 1 by one.
     for i in range(grid_size):
-        # checks the grid to see if its been edited and if its valid
+        # checks the grid to see if selected coordinate is valid
             if is_valid(i,col): 
-            # sets the grid location to Q,tries to add the next queen,Backtrack on failure
+                # sets the grid location to Q
                 grid[i][col] = 'Q'     
-                never_give_up(board,col+1,i)
+                # places a queen in the next row down
+                place_queen(board,col+1)
+                #Backtrack on failure
                 grid[i][col] = '.'
     
 
 def solve():
-    # Because I was naughty and didn't get rid of all my global variables    
-    never_give_up(grid,0,0)       
+    # Because I was naughty and didn't get rid of all my global variables
+    # does also exit after finding all the variables I did check
+    place_queen(grid)       
         
 solve()    
 
