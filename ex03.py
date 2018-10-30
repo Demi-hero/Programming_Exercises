@@ -3,7 +3,9 @@
 Spyder Editor
 
 TODO:
-    Find More Than One Solution
+    Find More Than One Solution#
+    Fold Never Give Up & Solve together
+    Get rid of Global Variables?
 """
 
 grid_size = 8
