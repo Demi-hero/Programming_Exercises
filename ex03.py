@@ -76,28 +76,27 @@ def is_valid(y,x):
         return False
     return True
 
-def never_give_up(board,col):
+def never_give_up(board,col,previous_i):
     if col >= grid_size:
-        return True
+        nice_grid(grid)
+        input("More?")
+        return
     for i in range(grid_size):
         # checks the grid to see if its been edited and if its valid
             if is_valid(i,col): 
-            # sets the grid location to Q
-                grid[i][col] = 'Q'    
-            # tries to add the next queen 
-                if never_give_up(board,col+1):
-                    return True
-            # if no solutions are found for here set the grid to .
+            # sets the grid location to Q,tries to add the next queen,Backtrack on failure
+                grid[i][col] = 'Q'     
+                never_give_up(board,col+1,i)
                 grid[i][col] = '.'
-    return False
+    
 
+never_give_up(grid,0,0)
 
-
-
+'''
 def solve():
-    ''' 
-    n = number of columns to be solved for 
-    '''
+    
+   # n = number of columns to be solved for 
+   # need to use this to deal with global varaibles 
     while True :
         # Recurs until it has a solution (In theory) then asks if you want 
         # another one
@@ -109,3 +108,4 @@ def solve():
         
             
 solve()    
+'''
