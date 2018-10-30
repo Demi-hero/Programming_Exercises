@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 """
-Spyder Editor
+Created on Tue Oct 30 09:56:54 2018
 
+@author: Nathan
+"""
+
+# -*- coding: utf-8 -*-
+"""
+Spyder Editor
 TODO:
     Find More Than One Solution#
     Fold Never Give Up & Solve together
@@ -90,22 +96,9 @@ def never_give_up(board,col,previous_i):
                 grid[i][col] = '.'
     
 
-never_give_up(grid,0,0)
-
-'''
 def solve():
-    
-   # n = number of columns to be solved for 
-   # need to use this to deal with global varaibles 
-    while True :
-        # Recurs until it has a solution (In theory) then asks if you want 
-        # another one
-        never_give_up(grid,0)         
-        nice_grid(grid)    
-        cont = input("More?")
-        if cont == 'no' :
-            break
+    # Because I was naughty and didn't get rid of all my global variables    
+    never_give_up(grid,0,0)       
         
-            
 solve()    
-'''
+
