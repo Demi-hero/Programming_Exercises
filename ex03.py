@@ -76,7 +76,7 @@ def is_valid(y,x):
         return False
     return True
 
-def never_give_up(board,col,previous_i):
+def place_queen(board,col):
     if col >= grid_size:
         nice_grid(grid)
         input("More?")
@@ -86,11 +86,11 @@ def never_give_up(board,col,previous_i):
             if is_valid(i,col): 
             # sets the grid location to Q,tries to add the next queen,Backtrack on failure
                 grid[i][col] = 'Q'     
-                never_give_up(board,col+1,i)
+                place_queen(board,col+1)
                 grid[i][col] = '.'
     
 
-never_give_up(grid,0,0)
+place_queen(grid,0)
 
 '''
 def solve():
