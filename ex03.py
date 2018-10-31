@@ -8,27 +8,30 @@ TODO:
     Get rid of Global Variables?
 """
 
-grid_size = 8
+GRID_SIZE = 8
+GRID = []
 
 def grid_generator(n):
-    grid = ["."] * n
+    global GRID
+    GRID = ["."] * n
     for i in range(n):
-        grid[i] = ['.'] * n
-    return grid
-
-grid = grid_generator(grid_size)
+        GRID[i] = ['.'] * n
+    
+grid_generator(GRID_SIZE)
 
 # function to print a nice grid of inditerminate size
 def nice_grid(board):
-    for y in range(grid_size):
-        for x in range(grid_size):
+    for y in range(GRID_SIZE):
+        for x in range(GRID_SIZE):
             print(board[x][y],end=' ')
         print()
 
 # function to check if the location is a Q        
 def spot_check(y0,x0):
-    if grid[y0][x0] == 'Q':
-        return False
+    global GRID
+    if GRID[y0][x0] == 'Q':
+        return True
+    return False
 
 #checks the 4 diagonal directions for queenly threats
 def diagonal_checker (y_pos,x_pos):
@@ -38,74 +41,73 @@ def diagonal_checker (y_pos,x_pos):
         xtl -= 1
         if xtl == -1:
             break
-        if spot_check(i,xtl) == False:
+        if spot_check(i,xtl):
             return False
 # Top Right of the Board
     for i in range(y_pos-1,-1,-1):
         xtr += 1
-        if xtr == grid_size:
+        if xtr == GRID_SIZE:
             break
-        if spot_check(i,xtr)== False:
+        if spot_check(i,xtr):
             return False
 # To the bottom left of the board
-    for i in range(y_pos+1,grid_size):
+    for i in range(y_pos+1,GRID_SIZE):
         xbl -= 1
         if xbl == -1:
             break
-        if spot_check(i,xbl)== False:
+        if spot_check(i,xbl):
             return False
 # Bottom Right of the Board
-    for i in range(y_pos+1,grid_size):
+    for i in range(y_pos+1,GRID_SIZE):
         xbr += 1
-        if xbr == grid_size:
+        if xbr == GRID_SIZE:
             break
-        if spot_check(i,xbr)== False:
+        if spot_check(i,xbr):
             return False
         
 #checks all directions for queenly checks
 def is_valid(y,x):
-    if spot_check == False:
+    global grid
+    if spot_check(y,x):
         return False
-    for value in range(0,grid_size):
-        if grid[y][value] == 'Q':
+    for value in range(0,GRID_SIZE):
+        if GRID[y][value] == 'Q':
             return False
-    for value in range(0,grid_size):
-        if grid[value][x] == 'Q':
+    for value in range(0,GRID_SIZE):
+        if GRID[value][x] == 'Q':
             return False
     if diagonal_checker(y,x) == False:
         return False
     return True
 
 def place_queen(board,col):
-    if col >= grid_size:
-        nice_grid(grid)
+    '''
+    Checks to see if the grid size is excided if not will for the row its on
+    Check if the coordinates can suport a queen, if so sets the grid location 
+    to Q, then attempts to add the next queen via recursion,
+    Will Backtrack on failure to place a queen. 
+    After each successful grid is generated will ask for user input
+    No matter what they do will output until all possible solutions are shown. 
+    '''
+    global GRID
+    if col >= GRID_SIZE:
+        nice_grid(GRID)
         input("More?")
         return
-    for i in range(grid_size):
+    for i in range(GRID_SIZE):
         # checks the grid to see if its been edited and if its valid
             if is_valid(i,col): 
-            # sets the grid location to Q,tries to add the next queen,Backtrack on failure
-                grid[i][col] = 'Q'     
+                GRID[i][col] = 'Q'     
                 place_queen(board,col+1)
-                grid[i][col] = '.'
+                GRID[i][col] = '.'
     
 
-place_queen(grid,0)
 
-'''
+
+
 def solve():
-    
-   # n = number of columns to be solved for 
-   # need to use this to deal with global varaibles 
-    while True :
-        # Recurs until it has a solution (In theory) then asks if you want 
-        # another one
-        never_give_up(grid,0)         
-        nice_grid(grid)    
-        cont = input("More?")
-        if cont == 'no' :
-            break
+  # it solves the problem   
+  place_queen(GRID,0)
         
             
 solve()    
-'''
