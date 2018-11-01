@@ -1,12 +1,5 @@
 # -*- coding: utf-8 -*-
 """
-Created on Tue Oct 30 09:56:54 2018
-
-@author: Nathan
-"""
-
-# -*- coding: utf-8 -*-
-"""
 Spyder Editor
 TODO:
         Get rid of Global Variables?
