@@ -7,6 +7,7 @@ TODO:
 
 GRID_SIZE = 8
 GRID = []
+COUNT = 0
 
 def grid_generator(n):
     global GRID
@@ -62,16 +63,15 @@ def diagonal_checker (y_pos,x_pos):
         if spot_check(i,xbr):
             return False
         
-#checks all directions for queenly checks
+
 def is_valid(y,x):
+    #checks all directions for queenly checks
+    # doesn't check row because of implimentation method
     global grid
     if spot_check(y,x):
         return False
     for value in range(0,GRID_SIZE):
         if GRID[y][value] == 'Q':
-            return False
-    for value in range(0,GRID_SIZE):
-        if GRID[value][x] == 'Q':
             return False
     if diagonal_checker(y,x) == False:
         return False
@@ -86,9 +86,11 @@ def place_queen(board,col):
     After each successful grid is generated will ask for user input
     No matter what they do will output until all possible solutions are shown. 
     '''
-    global GRID
+    global GRID 
+    global COUNT
     if col >= GRID_SIZE:
         nice_grid(GRID)
+        COUNT += 1
         input("More?")
         return
     for i in range(GRID_SIZE):
@@ -99,12 +101,56 @@ def place_queen(board,col):
                 GRID[i][col] = '.'
     
 
-
-
-
 def solve():
   # it solves the problem   
   place_queen(GRID,0)
         
-            
-solve()    
+  
+# solve()    
+# print(COUNT)
+
+
+
+'''solving for a 1D Array instead, I did it for fun after I submitted to 
+Le jefe. Thought you may be intereted it see what I came up with after I threw
+out the bath water'''
+
+QUEEN_LIST = ['.' for i in range(GRID_SIZE)]
+
+def make_grid(queen_list = QUEEN_LIST, grid_size = GRID_SIZE):
+    for x in range(grid_size):
+        for y in range(grid_size):
+            if QUEEN_LIST[x] == y:
+                print('Q', end=' ')
+            else:
+                print('.', end=' ')
+        print()
+
+def Qvalid(y, x):
+    global QUEEN_LIST
+    for i in range (y):
+        if QUEEN_LIST[i] == x:
+            return False
+        if (abs((y - i)) == abs((x - QUEEN_LIST[i]))) : 
+        # or ((y - i) == (QUEEN_LIST[i] - x)):
+            return False
+    return True
+
+
+def solve_1d():
+    global QUEEN_LIST, GRID_SIZE, COUNT
+    for y in range (GRID_SIZE):
+        if QUEEN_LIST[y] == '.':
+            for x in range (GRID_SIZE):
+                if Qvalid(y,x):
+                    QUEEN_LIST[y] = x
+                    solve_1d()
+                    QUEEN_LIST[y] = '.'
+            return
+    make_grid()
+    COUNT += 1
+    input('more?')
+    
+
+solve_1d()
+# print(COUNT)    
