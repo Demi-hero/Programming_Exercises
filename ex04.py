@@ -44,7 +44,7 @@ class LogOpr(Expr):
 
 class And(LogOpr):
 
-    precidence = 2
+    precidence = 3
     opp = '&'
 
     def func(self, left, right) :
@@ -53,7 +53,7 @@ class And(LogOpr):
 
 class Or(LogOpr):
 
-    precidence = 3
+    precidence = 2
     opp = "|"
 
     def func(self, left, right):
@@ -61,7 +61,7 @@ class Or(LogOpr):
 
 
 class Eq(LogOpr):
-    precidence = 4
+    precidence = 1
     opp = '=='
 
     def func(self, left, right):
@@ -69,7 +69,8 @@ class Eq(LogOpr):
 
 
 class Not(Expr):
-    precidence = 1
+    
+    precidence = 4
 
     def __init__(self, value):
         self.value = value
@@ -95,18 +96,12 @@ class Var(Expr):
     def evaluate(self, env):
         return env[self.variable]
 
+
 VarVal = { "x": False, "y": True }
 
 e1 = Or(Var("x"), Not(Var("x")))
 e2 = Eq(Var("x"), Not(Not(Var("x"))))
 e3 = Eq(Not(And(Var("x"), Var("y"))), Or(Not(Var("x")), Not(Var("y"))))
 e4 = Eq(Not(And(Var("x"), Var("y"))), And(Not(Var("x")), Not(Var("y"))))
-print(str(e1))
-print(str(e2))
-print(str(e3))
-print(str(e4))
 
-print(e1.evaluate(VarVal))
-print(e2.evaluate(VarVal))
-print(e3.evaluate(VarVal))
-print(e4.evaluate(VarVal))
+str(e3)
