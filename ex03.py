@@ -153,4 +153,4 @@ def solve_1d():
     
 
 solve_1d()
-# print(COUNT)    
+print(COUNT)    
