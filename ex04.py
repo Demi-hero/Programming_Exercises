@@ -6,10 +6,10 @@ Problem Set 4
 
 ToDo:
     Truth Table
-        Get variable_fetch to convert to a list
-        Create a dict of variables 
+        
+        Create a dict of variables
         Iterate over dictionary to turn things in to true and false
-    
+        both of these can be done with a recursive backtracker
     Tautology
         run truth table
         if all values are true return true
@@ -20,16 +20,21 @@ ToDo:
 
 class Expr:
     # parent class for all the classes
-    
+        
     def __str__(self):
         return self.bound_str(0)
-
+        
 
     def make_list(stuborn):
         coercive = []    
         for value in stuborn: 
             coercive += value 
         return coercive
+    
+    def truth_table(variables):
+        # this should recursively build a truth table
+        # will only accept lists though
+        pass
     
     # support function for make truth table
     def variable_fetch(self):
@@ -41,12 +46,13 @@ class Expr:
         # make the variable and dictionary needed for the table
         bool_dict = {}
         tt_var = make_list(self.variable_fetch())
-        
         for var in tt_var :
             bool_dict[var] = True
             print("{} \t|".format(var),end=' ')
         print("{}".format(self.bound_str(0)))
-        print(bool_dict)   
+        
+        
+
 class LogOpr(Expr):
     # Parent class for all binary operations
     def __init__(self, left, right): 
