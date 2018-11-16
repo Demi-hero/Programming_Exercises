@@ -6,10 +6,7 @@ Problem Set 4
 
 ToDo:
     Truth Table
-        
-        Create a dict of variables
-        Iterate over dictionary to turn things in to true and false
-        both of these can be done with a recursive backtracker
+        Stop showing None
     Tautology
         run truth table
         if all values are true return true
@@ -21,37 +18,67 @@ ToDo:
 class Expr:
     # parent class for all the classes
         
+    taut_flag = 1
+    
+    def __init__(self):
+        self.header = 0
+        
     def __str__(self):
         return self.bound_str(0)
+    
+    def truth_table_genisis(self,n, var_dict, taut, truths=[]):
+        # Base case where n = 0, have also included some things that allow 
+        # it to do my taut checking for me.
         
+        if not n:
+        # this creates the key value parings and prints the truth table.
+            for truth, key in zip(truths, var_dict):
+                var_dict[key] = truth
+                if not taut:
+                    print("{} \t|".format(truth),end="")
+            #if self.eval(var_dict)) :
+            # evaluates the key:value pair of this itteration and prints it
+            if not taut:
+                print (self.eval(var_dict))
+            if not self.eval(var_dict):
+                self.taut_flag = 0
+        # recurs until we hit the max lenght of the variable list.
+        else:
+            for i in [True,False]:
+                self.truth_table_genisis(n-1,var_dict,taut,truths+[i])
 
-    def make_list(stuborn):
+    def make_list(self,stuborn):
         coercive = []    
         for value in stuborn: 
             coercive += value 
+        # hands back a list of stuff    
         return coercive
-    
-    def truth_table(variables):
-        # this should recursively build a truth table
-        # will only accept lists though
-        pass
     
     # support function for make truth table
     def variable_fetch(self):
         new_list = self.variable_fetch()
         return list(new_list)
   
-    #
-    def make_tt(self):
+    def make_tt(self, taut = 0):
         # make the variable and dictionary needed for the table
         bool_dict = {}
-        tt_var = make_list(self.variable_fetch())
+        tt_var = self.make_list(self.variable_fetch())
         for var in tt_var :
-            bool_dict[var] = True
-            print("{} \t|".format(var),end=' ')
-        print("{}".format(self.bound_str(0)))
+            bool_dict[var] = ""
+            if not taut:
+                print("{} \t|".format(var),end=' ')
+        if not taut:
+            print("{}".format(self.bound_str(0)))
+        self.truth_table_genisis(len(tt_var),bool_dict,taut)
+        return ""
         
-        
+    def isTauto(self):
+        # does the truth table work with none of the printing
+        self.make_tt(taut = 1)
+        if self.taut_flag:
+            return True
+        else:
+            return False
 
 class LogOpr(Expr):
     # Parent class for all binary operations
@@ -145,4 +172,6 @@ e3 = Eq(Not(And(Var("x"), Var("y"))), Or(Not(Var("x")), Not(Var("y"))))
 e4 = Eq(Not(And(Var("x"), Var("y"))), And(Not(Var("x")), Not(Var("y"))))
 # print(str(e3))
 # print(e3.variable_fetch())
+# print(e3.make_list(e3.variable_fetch()))
+#print(e3.eval(VarVal))
 print(e3.make_tt())
