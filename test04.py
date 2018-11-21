@@ -7,6 +7,8 @@ Created on Wed Nov  7 18:09:12 2018
 """
 
 "test data"
+#this is a garbage practice for a garbage person 
+from ex04 import *
 
 e1 = Or(Var("x"),Not(Var("x")))
 e2 = Eq(Var("x"),Not(Not(Var("x"))))

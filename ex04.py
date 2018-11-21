@@ -26,26 +26,25 @@ class Expr:
     def __str__(self):
         return self.bound_str(0)
     
-    def truth_table_genisis(self,n, var_dict, taut, truths=[]):
+    def create_truth_table(self,n, var_dict, tautology = 0, truths=[]):
         # Base case where n = 0, have also included some things that allow 
         # it to do my taut checking for me.
-        
         if not n:
         # this creates the key value parings and prints the truth table.
             for truth, key in zip(truths, var_dict):
                 var_dict[key] = truth
-                if not taut:
+                if not tautology:
                     print("{} \t|".format(truth),end="")
-            #if self.eval(var_dict)) :
+            
+            if not tautology:
             # evaluates the key:value pair of this itteration and prints it
-            if not taut:
                 print (self.eval(var_dict))
             if not self.eval(var_dict):
                 self.taut_flag = 0
         # recurs until we hit the max lenght of the variable list.
         else:
             for i in [True,False]:
-                self.truth_table_genisis(n-1,var_dict,taut,truths+[i])
+                self.create_truth_table(n-1,var_dict,tautology,truths+[i])
 
     def make_list(self,stuborn):
         coercive = []    
@@ -55,26 +54,26 @@ class Expr:
         return coercive
     
     # support function for make truth table
-    def variable_fetch(self):
-        new_list = self.variable_fetch()
-        return list(new_list)
+    def variable_walk_down(self):
+        return list(self.variable_fetch())
+         
   
-    def make_tt(self, taut = 0):
+    def make_tt(self,tautology = 0):
         # make the variable and dictionary needed for the table
         bool_dict = {}
-        tt_var = self.make_list(self.variable_fetch())
+        tt_var = self.make_list(self.variable_walk_down())
         for var in tt_var :
             bool_dict[var] = ""
-            if not taut:
+            if not tautology:
                 print("{} \t|".format(var),end=' ')
-        if not taut:
-            print("{}".format(self.bound_str(0)))
-        self.truth_table_genisis(len(tt_var),bool_dict,taut)
+        if not tautology:
+            print ("{}".format(self.bound_str(0)))
+        self.create_truth_table(len(tt_var),bool_dict,tautology)
         return ""
         
     def isTauto(self):
         # does the truth table work with none of the printing
-        self.make_tt(taut = 1)
+        self.make_tt(tautology = 1)
         if self.taut_flag:
             return True
         else:
@@ -162,16 +161,3 @@ class Var(Expr):
     
     def variable_fetch(self):
         return {self.variable}
-
-
-VarVal = { "x": False, "y": True }
-
-e1 = Or(Var("x"), Not(Var("x")))
-e2 = Eq(Var("x"), Not(Not(Var("x"))))
-e3 = Eq(Not(And(Var("x"), Var("y"))), Or(Not(Var("x")), Not(Var("y"))))
-e4 = Eq(Not(And(Var("x"), Var("y"))), And(Not(Var("x")), Not(Var("y"))))
-# print(str(e3))
-# print(e3.variable_fetch())
-# print(e3.make_list(e3.variable_fetch()))
-#print(e3.eval(VarVal))
-print(e3.make_tt())
