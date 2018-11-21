@@ -60,25 +60,13 @@ class Expr:
         return list(new_list)
   
     def make_tt(self, taut = 0):
-        # make the variable and dictionary needed for the table
-        bool_dict = {}
-        tt_var = self.make_list(self.variable_fetch())
-        for var in tt_var :
-            bool_dict[var] = ""
-            if not taut:
-                print("{} \t|".format(var),end=' ')
-        if not taut:
-            print("{}".format(self.bound_str(0)))
-        self.truth_table_genisis(len(tt_var),bool_dict,taut)
-        return ""
-        
+
     def isTauto(self):
-        # does the truth table work with none of the printing
-        self.make_tt(taut = 1)
-        if self.taut_flag:
-            return True
-        else:
-            return False
+
+
+class truth_table:
+    pass
+
 
 class LogOpr(Expr):
     # Parent class for all binary operations
