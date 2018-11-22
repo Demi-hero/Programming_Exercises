@@ -54,21 +54,21 @@ class Expr:
             bool_dict[var] = ""
             truth_table = truth_table + "{} \t|".format(var)
         truth_table = truth_table + "{} \n".format(self.bound_str(0))
-        # append the evaluation to the end of each line in truth list
+        # generates a dictionary to evaluate and append the evaluation to the end of the list
         for lines in truth_list:
             for key,boolian in zip (bool_dict, lines):
                 bool_dict[key] = boolian                 
             lines = lines.append(self.eval(bool_dict))
             if tautology and not self.eval(bool_dict):
                 return False
-        # self.create_truth_table(len(tt_var),bool_dict,tautology)
+        # returns a truth table if not looking for a tautology
         if not tautology:
             for lines in truth_list: 
                 for values in range (len(lines)-1):
-                    truth_table = truth_table + "{} \t|".format(lines[values])
+                    truth_table = truth_table + "{} |".format(lines[values])
                 truth_table = truth_table + "{} \n".format(lines[-1])
             return truth_table
-        # this only fires on Tautology call no false evaluations 
+        # Fire only if expression is a tautology
         return True
     
     
