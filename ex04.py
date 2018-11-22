@@ -5,53 +5,34 @@ Created on Sun Nov 11 09:26:13 2018
 Problem Set 4 
 
 ToDo:
-    Truth Table
-        Stop showing None
-    Tautology
-        run truth table
-        if all values are true return true
-
+    Done?
 @author: Nathan
 """
 
 
 class Expr:
     # parent class for all the classes
-        
-    taut_flag = 1
     
     def __init__(self):
         self.header = 0
         
     def __str__(self):
         return self.bound_str(0)
-    
-    def create_truth_table(self,n, var_dict, tautology = 0, truths=[]):
-        # Base case where n = 0, have also included some things that allow 
-        # it to do my taut checking for me.
-        if not n:
-        # this creates the key value parings and prints the truth table.
-            for truth, key in zip(truths, var_dict):
-                var_dict[key] = truth
-                if not tautology:
-                    print("{} \t|".format(truth),end="")
-            
-            if not tautology:
-            # evaluates the key:value pair of this itteration and prints it
-                print (self.eval(var_dict))
-            if not self.eval(var_dict):
-                self.taut_flag = 0
-        # recurs until we hit the max lenght of the variable list.
-        else:
-            for i in [True,False]:
-                self.create_truth_table(n-1,var_dict,tautology,truths+[i])
 
-    def make_list(self,stuborn):
-        coercive = []    
-        for value in stuborn: 
-            coercive += value 
+                
+    def create_truth_list(self,n, m, truths=[]):
+        if not n:
+            m[:] = m + [truths]
+        else:
+            for i in [True, False]:
+                self.create_truth_list(n-1, m, truths+[i])
+
+    def make_list(self,var_set):
+        variables = []    
+        for value in var_set: 
+            variables += value 
         # hands back a list of stuff    
-        return coercive
+        return variables
     
     # support function for make truth table
     def variable_walk_down(self):
@@ -61,23 +42,40 @@ class Expr:
     def make_tt(self,tautology = 0):
         # make the variable and dictionary needed for the table
         bool_dict = {}
+        truth_list = []
+        truth_table = ""
+        # make a list of variables 
         tt_var = self.make_list(self.variable_walk_down())
+        # make a list of lists reping TT rows
+        self.create_truth_list(len(tt_var),truth_list)
+        # assigne the expression variabls to dictionary keys and create the 
+        # header
         for var in tt_var :
             bool_dict[var] = ""
-            if not tautology:
-                print("{} \t|".format(var),end=' ')
+            truth_table = truth_table + "{} \t|".format(var)
+        truth_table = truth_table + "{} \n".format(self.bound_str(0))
+        # append the evaluation to the end of each line in truth list
+        for lines in truth_list:
+            for key,boolian in zip (bool_dict, lines):
+                bool_dict[key] = boolian                 
+            lines = lines.append(self.eval(bool_dict))
+            if tautology and not self.eval(bool_dict):
+                return False
+        # self.create_truth_table(len(tt_var),bool_dict,tautology)
         if not tautology:
-            print ("{}".format(self.bound_str(0)))
-        self.create_truth_table(len(tt_var),bool_dict,tautology)
-        return ""
-        
+            for lines in truth_list: 
+                for values in range (len(lines)-1):
+                    truth_table = truth_table + "{} \t|".format(lines[values])
+                truth_table = truth_table + "{} \n".format(lines[-1])
+            return truth_table
+        # this only fires on Tautology call no false evaluations 
+        return True
+    
+    
     def isTauto(self):
         # does the truth table work with none of the printing
-        self.make_tt(tautology = 1)
-        if self.taut_flag:
-            return True
-        else:
-            return False
+        return self.make_tt(tautology=1)
+
 
 class LogOpr(Expr):
     # Parent class for all binary operations
@@ -94,7 +92,7 @@ class LogOpr(Expr):
             return string
     
     def variable_fetch(self):
-        return self.left.variable_fetch().union(self.right.variable_fetch())              
+        return self.left.variable_fetch() | (self.right.variable_fetch())              
 
     def eval(self, env):
         return self.func(self.left.eval(env), 
